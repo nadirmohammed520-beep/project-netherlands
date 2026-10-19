@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Productivity & Study Hub</title>
+    <title>Justice Reform: Netherlands vs. United States</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -14,12 +14,19 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
+                        navy: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617',
+                        },
+                        dutch: {
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        },
+                        us: {
+                            500: '#ef4444',
+                            600: '#dc2626',
                         }
                     },
                     fontFamily: {
@@ -32,539 +39,728 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .dark .glass-card {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
     </style>
 </head>
-<body class="h-full flex flex-col md:flex-row overflow-hidden bg-slate-950 text-slate-100 selection:bg-sky-500 selection:text-white">
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col selection:bg-blue-500 selection:text-white">
 
-    <!-- Navigation Sidebar -->
-    <aside class="w-full md:w-64 bg-slate-900 border-r border-slate-800 flex flex-col justify-between shrink-0">
-        <div>
-            <!-- Logo & Header -->
-            <div class="p-5 border-b border-slate-800 flex items-center justify-between">
-                <div class="flex items-center space-x-3">
-                    <div class="p-2 bg-sky-600 text-white rounded-xl shadow-lg shadow-sky-500/30">
-                        <i data-lucide="graduation-cap" class="w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <h1 class="font-extrabold text-base text-white tracking-tight leading-none">STUDY HUB</h1>
-                        <span class="text-xs text-sky-400 font-medium">Student Dashboard</span>
-                    </div>
+    <!-- Top Navigation -->
+    <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="p-2 bg-blue-600 text-white rounded-lg shadow-lg shadow-blue-500/30">
+                    <i data-lucide="scale" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <span class="font-extrabold text-lg tracking-tight text-white block leading-none">GLOBAL JUSTICE</span>
+                    <span class="text-xs text-blue-400 font-medium">NL vs. US Comparative Study</span>
                 </div>
             </div>
 
-            <!-- Navigation Links -->
-            <nav class="p-4 space-y-1">
-                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all bg-sky-600 text-white shadow-lg shadow-sky-600/20">
-                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
-                    <span>Dashboard</span>
-                </button>
-                <button onclick="switchTab('tasks')" id="nav-tasks" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-sm text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">
-                    <i data-lucide="check-square" class="w-5 h-5"></i>
-                    <span>Assignment Planner</span>
-                </button>
-                <button onclick="switchTab('notes')" id="nav-notes" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-sm text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">
-                    <i data-lucide="file-text" class="w-5 h-5"></i>
-                    <span>Notebooks & Notes</span>
-                </button>
-                <button onclick="switchTab('timer')" id="nav-timer" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-sm text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">
-                    <i data-lucide="timer" class="w-5 h-5"></i>
-                    <span>Pomodoro Timer</span>
-                </button>
+            <!-- Desktop Links -->
+            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                <a href="#stats" class="text-slate-300 hover:text-blue-400 transition-colors">Key Stats</a>
+                <a href="#philosophy" class="text-slate-300 hover:text-blue-400 transition-colors">Dutch System</a>
+                <a href="#comparison" class="text-slate-300 hover:text-blue-400 transition-colors">NL vs US</a>
+                <a href="#proposal" class="text-slate-300 hover:text-blue-400 transition-colors">U.S. Proposal</a>
+                <a href="#questions" class="text-slate-300 hover:text-blue-400 transition-colors">Q&A Breakdown</a>
+                <a href="#sources" class="text-slate-300 hover:text-blue-400 transition-colors">Sources</a>
             </nav>
-        </div>
 
-        <!-- Quick Stats Banner at bottom of sidebar -->
-        <div class="p-4 m-4 rounded-2xl bg-slate-950 border border-slate-800">
-            <div class="flex items-center justify-between text-xs text-slate-400 mb-2">
-                <span>Daily Focus Target</span>
-                <span id="sidebar-focus-percent" class="font-bold text-sky-400">0%</span>
-            </div>
-            <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                <div id="sidebar-progress-bar" class="bg-sky-500 h-full w-0 transition-all duration-500"></div>
-            </div>
-        </div>
-    </aside>
-
-    <!-- Main Content Viewport -->
-    <main class="flex-1 overflow-y-auto p-4 sm:p-8 bg-slate-950">
-        
-        <!-- DASHBOARD TAB -->
-        <section id="tab-dashboard" class="space-y-8 max-w-7xl mx-auto">
-            <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-6">
-                <div>
-                    <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Welcome Back! 👋</h2>
-                    <p class="text-sm text-slate-400">Here is a quick breakdown of your study progress and upcoming tasks.</p>
-                </div>
-                <button onclick="switchTab('tasks')" class="bg-sky-600 hover:bg-sky-500 text-white px-4 py-2.5 rounded-xl font-semibold text-sm shadow-lg shadow-sky-600/20 transition-all flex items-center gap-2 self-start sm:self-auto">
-                    <i data-lucide="plus" class="w-4 h-4"></i> Add New Task
+            <!-- Action Controls -->
+            <div class="flex items-center space-x-3">
+                <button onclick="openPresentationModal()" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-4 py-2 rounded-xl text-xs sm:text-sm font-bold shadow-lg shadow-blue-500/20 transition-all flex items-center gap-2">
+                    <i data-lucide="presentation" class="w-4 h-4"></i>
+                    <span>Presentation Mode</span>
                 </button>
-            </header>
-
-            <!-- Metrics Overview Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl flex items-center justify-between">
-                    <div>
-                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Pending Tasks</span>
-                        <div id="dash-pending-count" class="text-3xl font-black text-white mt-1">0</div>
-                    </div>
-                    <div class="p-3 bg-amber-500/10 text-amber-400 rounded-xl">
-                        <i data-lucide="clock" class="w-6 h-6"></i>
-                    </div>
-                </div>
-
-                <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl flex items-center justify-between">
-                    <div>
-                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Completed Tasks</span>
-                        <div id="dash-completed-count" class="text-3xl font-black text-white mt-1">0</div>
-                    </div>
-                    <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-xl">
-                        <i data-lucide="check-circle-2" class="w-6 h-6"></i>
-                    </div>
-                </div>
-
-                <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl flex items-center justify-between">
-                    <div>
-                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Focus Sessions</span>
-                        <div id="dash-session-count" class="text-3xl font-black text-white mt-1">0</div>
-                    </div>
-                    <div class="p-3 bg-sky-500/10 text-sky-400 rounded-xl">
-                        <i data-lucide="flame" class="w-6 h-6"></i>
-                    </div>
-                </div>
-
-                <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl flex items-center justify-between">
-                    <div>
-                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Notebooks</span>
-                        <div id="dash-note-count" class="text-3xl font-black text-white mt-1">0</div>
-                    </div>
-                    <div class="p-3 bg-purple-500/10 text-purple-400 rounded-xl">
-                        <i data-lucide="book-open" class="w-6 h-6"></i>
-                    </div>
-                </div>
             </div>
-
-            <!-- Urgent Assignments Preview -->
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="font-bold text-lg text-white flex items-center gap-2">
-                        <i data-lucide="alert-circle" class="w-5 h-5 text-sky-400"></i> Upcoming Deadlines
-                    </h3>
-                    <button onclick="switchTab('tasks')" class="text-xs font-semibold text-sky-400 hover:text-sky-300">View All Tasks &rarr;</button>
-                </div>
-                <div id="dash-urgent-list" class="space-y-3">
-                    <!-- JavaScript rendered dynamic items -->
-                </div>
-            </div>
-        </section>
-
-        <!-- ASSIGNMENT PLANNER TAB -->
-        <section id="tab-tasks" class="space-y-6 max-w-7xl mx-auto hidden">
-            <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-6">
-                <div>
-                    <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Assignment Planner</h2>
-                    <p class="text-sm text-slate-400">Track homework, school projects, exams, and personal study goals.</p>
-                </div>
-                <button onclick="toggleModal('task-modal', true)" class="bg-sky-600 hover:bg-sky-500 text-white px-4 py-2.5 rounded-xl font-semibold text-sm shadow-lg shadow-sky-600/20 transition-all flex items-center gap-2">
-                    <i data-lucide="plus-circle" class="w-4 h-4"></i> New Task
-                </button>
-            </header>
-
-            <!-- Task Filters -->
-            <div class="flex flex-wrap items-center justify-between gap-4 bg-slate-900 p-4 rounded-2xl border border-slate-800">
-                <div class="flex items-center space-x-2">
-                    <button onclick="filterTasks('all')" id="filter-all" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-600 text-white">All Tasks</button>
-                    <button onclick="filterTasks('pending')" id="filter-pending" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800">Pending</button>
-                    <button onclick="filterTasks('completed')" id="filter-completed" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800">Completed</button>
-                </div>
-            </div>
-
-            <!-- Task List Container -->
-            <div id="tasks-container" class="space-y-3">
-                <!-- Javascript populated tasks -->
-            </div>
-        </section>
-
-        <!-- NOTES TAB -->
-        <section id="tab-notes" class="space-y-6 max-w-7xl mx-auto hidden">
-            <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-6">
-                <div>
-                    <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Notebooks & Study Notes</h2>
-                    <p class="text-sm text-slate-400">Keep class summaries, research notes, and study guides organized.</p>
-                </div>
-                <button onclick="toggleModal('note-modal', true)" class="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2.5 rounded-xl font-semibold text-sm shadow-lg shadow-purple-600/20 transition-all flex items-center gap-2">
-                    <i data-lucide="pen-tool" class="w-4 h-4"></i> Create Note
-                </button>
-            </header>
-
-            <!-- Notes Grid -->
-            <div id="notes-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- Javascript populated notes -->
-            </div>
-        </section>
-
-        <!-- POMODORO TIMER TAB -->
-        <section id="tab-timer" class="space-y-8 max-w-3xl mx-auto hidden">
-            <header class="text-center border-b border-slate-800 pb-6">
-                <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Pomodoro Focus Timer</h2>
-                <p class="text-sm text-slate-400 mt-1">Focus intensely for 25 minutes, then take a short 5-minute break to stay sharp.</p>
-            </header>
-
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-12 text-center shadow-2xl relative overflow-hidden">
-                <!-- Session Badge -->
-                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-400 text-xs font-bold uppercase tracking-widest mb-8">
-                    <i data-lucide="flame" class="w-4 h-4"></i> <span id="timer-mode-label">Work Session</span>
-                </div>
-
-                <!-- Circular Clock Display -->
-                <div class="text-6xl sm:text-8xl font-black text-white tracking-tighter my-4 font-mono">
-                    <span id="timer-display">25:00</span>
-                </div>
-
-                <!-- Timer Controls -->
-                <div class="flex items-center justify-center gap-4 mt-8">
-                    <button id="timer-start-btn" onclick="toggleTimer()" class="bg-sky-600 hover:bg-sky-500 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-xl shadow-sky-600/30 transition-all flex items-center gap-3">
-                        <i data-lucide="play" class="w-5 h-5"></i> Start Focus
-                    </button>
-                    <button onclick="resetTimer()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 p-4 rounded-2xl font-semibold transition-all border border-slate-700">
-                        <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
-                    </button>
-                </div>
-
-                <!-- Session Counter -->
-                <div class="mt-8 pt-8 border-t border-slate-800/80 flex justify-center items-center gap-6 text-slate-400 text-xs font-medium">
-                    <div>Completed Today: <strong id="completed-sessions-count" class="text-white text-sm ml-1">0</strong></div>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- NEW TASK MODAL -->
-    <div id="task-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-                <h3 class="font-bold text-lg text-white">Create New Assignment</h3>
-                <button onclick="toggleModal('task-modal', false)" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
-            </div>
-            <form onsubmit="handleAddTask(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Title</label>
-                    <input id="task-title" type="text" required placeholder="e.g., History Essay Outline" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-sky-500">
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Subject / Tag</label>
-                        <input id="task-tag" type="text" placeholder="History, Math, Science" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-sky-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Due Date</label>
-                        <input id="task-date" type="date" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-sky-500">
-                    </div>
-                </div>
-                <div class="flex justify-end gap-3 pt-2">
-                    <button type="button" onclick="toggleModal('task-modal', false)" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:bg-slate-800">Cancel</button>
-                    <button type="submit" class="bg-sky-600 hover:bg-sky-500 text-white px-5 py-2 rounded-xl text-xs font-bold shadow-lg shadow-sky-600/20">Save Task</button>
-                </div>
-            </form>
         </div>
-    </div>
+    </header>
 
-    <!-- NEW NOTE MODAL -->
-    <div id="note-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-                <h3 class="font-bold text-lg text-white">Create Study Note</h3>
-                <button onclick="toggleModal('note-modal', false)" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+    <!-- Hero Header -->
+    <section class="relative py-16 sm:py-24 overflow-hidden bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border-b border-slate-800">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(59,130,246,0.15),rgba(255,255,255,0))]"></div>
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-semibold uppercase tracking-widest mb-6">
+                <i data-lucide="book-open" class="w-3.5 h-3.5"></i> Social Studies Research Project
             </div>
-            <form onsubmit="handleAddNote(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Note Title</label>
-                    <input id="note-title" type="text" required placeholder="e.g., Biology Chapter 4 Summary" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Folder / Subject</label>
-                    <input id="note-folder" type="text" placeholder="Biology" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Content</label>
-                    <textarea id="note-content" rows="4" required placeholder="Write down key takeaways, study points..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500"></textarea>
-                </div>
-                <div class="flex justify-end gap-3 pt-2">
-                    <button type="button" onclick="toggleModal('note-modal', false)" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:bg-slate-800">Cancel</button>
-                    <button type="submit" class="bg-purple-600 hover:bg-purple-500 text-white px-5 py-2 rounded-xl text-xs font-bold shadow-lg shadow-purple-600/20">Save Note</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Application JavaScript Logic -->
-    <script>
-        // Initial state
-        let tasks = JSON.parse(localStorage.getItem('student_tasks')) || [
-            { id: 1, title: 'Read History Chapter 5', tag: 'History', date: '2026-10-25', completed: false },
-            { id: 2, title: 'Math Problem Set #3', tag: 'Math', date: '2026-10-22', completed: true }
-        ];
-
-        let notes = JSON.parse(localStorage.getItem('student_notes')) || [
-            { id: 1, title: 'Civil Rights Movement Summary', folder: 'History', content: 'Key events, figures, and historical timeline overview.' }
-        ];
-
-        let timerState = {
-            minutes: 25,
-            seconds: 0,
-            isRunning: false,
-            interval: null,
-            mode: 'work', // 'work' or 'break'
-            sessionsCompleted: 0
-        };
-
-        let currentTaskFilter = 'all';
-
-        // Tab Switcher
-        function switchTab(tabId) {
-            ['dashboard', 'tasks', 'notes', 'timer'].forEach(tab => {
-                document.getElementById(`tab-${tab}`).classList.add('hidden');
-                const navBtn = document.getElementById(`nav-${tab}`);
-                if (navBtn) {
-                    navBtn.className = "w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-sm text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all";
-                }
-            });
-
-            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
-            const activeNav = document.getElementById(`nav-${tabId}`);
-            if (activeNav) {
-                activeNav.className = "w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all bg-sky-600 text-white shadow-lg shadow-sky-600/20";
-            }
-
-            renderAll();
-        }
-
-        // Render Application Data
-        function renderAll() {
-            renderDashboard();
-            renderTasks();
-            renderNotes();
-            lucide.createIcons();
-        }
-
-        function renderDashboard() {
-            const pending = tasks.filter(t => !t.completed);
-            const completed = tasks.filter(t => t.completed);
-
-            document.getElementById('dash-pending-count').innerText = pending.length;
-            document.getElementById('dash-completed-count').innerText = completed.length;
-            document.getElementById('dash-session-count').innerText = timerState.sessionsCompleted;
-            document.getElementById('dash-note-count').innerText = notes.length;
-
-            const percent = tasks.length ? Math.round((completed.length / tasks.length) * 100) : 0;
-            document.getElementById('sidebar-focus-percent').innerText = `${percent}%`;
-            document.getElementById('sidebar-progress-bar').style.width = `${percent}%`;
-
-            const urgentContainer = document.getElementById('dash-urgent-list');
-            if (pending.length === 0) {
-                urgentContainer.innerHTML = `<p class="text-xs text-slate-500 py-2">No pending assignments!</p>`;
-            } else {
-                urgentContainer.innerHTML = pending.slice(0, 3).map(task => `
-                    <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800/80">
-                        <div class="flex items-center space-x-3">
-                            <button onclick="toggleTask(${task.id})" class="text-slate-600 hover:text-sky-400">
-                                <i data-lucide="circle" class="w-4 h-4"></i>
-                            </button>
-                            <div>
-                                <span class="text-xs font-semibold text-white block">${task.title}</span>
-                                <span class="text-[10px] text-slate-400">${task.tag || 'General'}</span>
-                            </div>
-                        </div>
-                        <span class="text-xs font-bold text-sky-400 px-2 py-1 bg-sky-500/10 rounded-lg">Due: ${task.date}</span>
-                    </div>
-                `).join('');
-            }
-        }
-
-        function renderTasks() {
-            const container = document.getElementById('tasks-container');
-            let filtered = tasks;
-            if (currentTaskFilter === 'pending') filtered = tasks.filter(t => !t.completed);
-            if (currentTaskFilter === 'completed') filtered = tasks.filter(t => t.completed);
-
-            if (filtered.length === 0) {
-                container.innerHTML = `<p class="text-center text-slate-500 py-8 text-sm">No assignments found.</p>`;
-                return;
-            }
-
-            container.innerHTML = filtered.map(task => `
-                <div class="flex items-center justify-between bg-slate-900 border border-slate-800 p-4 rounded-2xl">
-                    <div class="flex items-center space-x-3">
-                        <button onclick="toggleTask(${task.id})" class="${task.completed ? 'text-emerald-400' : 'text-slate-500 hover:text-sky-400'}">
-                            <i data-lucide="${task.completed ? 'check-circle-2' : 'circle'}" class="w-5 h-5"></i>
-                        </button>
-                        <div>
-                            <span class="text-sm font-semibold text-white ${task.completed ? 'line-through text-slate-500' : ''}">${task.title}</span>
-                            <div class="flex items-center space-x-2 mt-0.5">
-                                <span class="text-[10px] font-bold text-sky-400 px-2 py-0.5 bg-sky-500/10 rounded-md">${task.tag || 'General'}</span>
-                                <span class="text-xs text-slate-500">Due: ${task.date}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <button onclick="deleteTask(${task.id})" class="text-slate-500 hover:text-red-400 p-2">
-                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                    </button>
-                </div>
-            `).join('');
-        }
-
-        function renderNotes() {
-            const container = document.getElementById('notes-container');
-            if (notes.length === 0) {
-                container.innerHTML = `<p class="text-center text-slate-500 py-8 text-sm col-span-full">No study notes yet.</p>`;
-                return;
-            }
-
-            container.innerHTML = notes.map(note => `
-                <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl flex flex-col justify-between space-y-4">
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-[10px] font-bold text-purple-400 px-2 py-0.5 bg-purple-500/10 rounded-md">${note.folder || 'Notes'}</span>
-                            <button onclick="deleteNote(${note.id})" class="text-slate-500 hover:text-red-400">
-                                <i data-lucide="trash" class="w-3.5 h-3.5"></i>
-                            </button>
-                        </div>
-                        <h4 class="font-bold text-white text-base mb-1">${note.title}</h4>
-                        <p class="text-xs text-slate-400 leading-relaxed">${note.content}</p>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Action Handlers
-        function handleAddTask(e) {
-            e.preventDefault();
-            const title = document.getElementById('task-title').value;
-            const tag = document.getElementById('task-tag').value;
-            const date = document.getElementById('task-date').value;
-
-            tasks.push({ id: Date.now(), title, tag, date, completed: false });
-            localStorage.setItem('student_tasks', JSON.stringify(tasks));
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight mb-6">
+                Rehabilitation vs. Punishment
+            </h1>
+            <p class="text-base sm:text-lg text-slate-400 max-w-3xl mx-auto mb-8 font-normal leading-relaxed">
+                A comparative analysis of the criminal justice systems of <strong class="text-blue-400 font-semibold">The Netherlands</strong> and the <strong class="text-red-400 font-semibold">United States</strong> — exploring incarceration, living conditions, recidivism, and solutions for U.S. reform.
+            </p>
             
-            toggleModal('task-modal', false);
-            e.target.reset();
-            renderAll();
-        }
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#comparison" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white px-6 py-3 rounded-xl font-semibold text-sm transition-all flex items-center gap-2">
+                    <i data-lucide="arrow-right-left" class="w-4 h-4 text-blue-400"></i> Compare Systems
+                </a>
+                <a href="#proposal" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold text-sm shadow-lg shadow-blue-500/25 transition-all flex items-center gap-2">
+                    <i data-lucide="lightbulb" class="w-4 h-4"></i> View Policy Reform
+                </a>
+            </div>
+        </div>
+    </section>
 
-        function handleAddNote(e) {
-            e.preventDefault();
-            const title = document.getElementById('note-title').value;
-            const folder = document.getElementById('note-folder').value;
-            const content = document.getElementById('note-content').value;
+    <!-- Interactive Quick Stats Widget -->
+    <section id="stats" class="py-12 bg-slate-950 border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h2 class="text-xs uppercase tracking-widest text-blue-400 font-bold mb-1">Key Metrics At A Glance</h2>
+                <p class="text-2xl font-bold text-white">The Numbers Tell The Story</p>
+            </div>
 
-            notes.push({ id: Date.now(), title, folder, content });
-            localStorage.setItem('student_notes', JSON.stringify(notes));
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Stat 1 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 relative overflow-hidden group hover:border-blue-500/50 transition-all">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-xs font-semibold text-slate-400 uppercase">Incarceration Rate</span>
+                        <div class="p-2 bg-blue-500/10 text-blue-400 rounded-lg">
+                            <i data-lucide="users" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    <div class="flex items-baseline gap-2 mb-2">
+                        <span class="text-3xl font-extrabold text-blue-400">70-100</span>
+                        <span class="text-xs text-slate-400">per 100k (NL)</span>
+                    </div>
+                    <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden mb-3">
+                        <div class="bg-blue-500 h-full w-[12%]"></div>
+                    </div>
+                    <p class="text-xs text-slate-400">US is <strong class="text-red-400">600-700 per 100k</strong> (~7x higher).</p>
+                </div>
 
-            toggleModal('note-modal', false);
-            e.target.reset();
-            renderAll();
-        }
+                <!-- Stat 2 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 relative overflow-hidden group hover:border-blue-500/50 transition-all">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-xs font-semibold text-slate-400 uppercase">Dutch Prison Capacity</span>
+                        <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg">
+                            <i data-lucide="building" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    <div class="flex items-baseline gap-2 mb-2">
+                        <span class="text-3xl font-extrabold text-emerald-400">78%</span>
+                        <span class="text-xs text-slate-400">Occupancy</span>
+                    </div>
+                    <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden mb-3">
+                        <div class="bg-emerald-500 h-full w-[78%]"></div>
+                    </div>
+                    <p class="text-xs text-slate-400">12,570 inmates in 14,789 max capacity.</p>
+                </div>
 
-        function toggleTask(id) {
-            tasks = tasks.map(t => t.id === id ? { ...t, completed: !t.completed } : t);
-            localStorage.setItem('student_tasks', JSON.stringify(tasks));
-            renderAll();
-        }
+                <!-- Stat 3 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 relative overflow-hidden group hover:border-blue-500/50 transition-all">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-xs font-semibold text-slate-400 uppercase">Recidivism Rate</span>
+                        <div class="p-2 bg-amber-500/10 text-amber-400 rounded-lg">
+                            <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    <div class="flex items-baseline gap-2 mb-2">
+                        <span class="text-3xl font-extrabold text-amber-400">27-30%</span>
+                        <span class="text-xs text-slate-400">Reconvictions (2-Yr)</span>
+                    </div>
+                    <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden mb-3">
+                        <div class="bg-amber-500 h-full w-[30%]"></div>
+                    </div>
+                    <p class="text-xs text-slate-400">US recidivism is much higher at <strong class="text-red-400">40-50%</strong>.</p>
+                </div>
 
-        function deleteTask(id) {
-            tasks = tasks.filter(t => t.id !== id);
-            localStorage.setItem('student_tasks', JSON.stringify(tasks));
-            renderAll();
-        }
+                <!-- Stat 4 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 relative overflow-hidden group hover:border-blue-500/50 transition-all">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-xs font-semibold text-slate-400 uppercase">Reintegration Focus</span>
+                        <div class="p-2 bg-purple-500/10 text-purple-400 rounded-lg">
+                            <i data-lucide="heart-handshake" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    <div class="flex items-baseline gap-2 mb-2">
+                        <span class="text-3xl font-extrabold text-purple-400">Day 1</span>
+                        <span class="text-xs text-slate-400">Rehab Start</span>
+                    </div>
+                    <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden mb-3">
+                        <div class="bg-purple-500 h-full w-[100%]"></div>
+                    </div>
+                    <p class="text-xs text-slate-400">Treatment, therapy, and job skills begin immediately.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        function deleteNote(id) {
-            notes = notes.filter(n => n.id !== id);
-            localStorage.setItem('student_notes', JSON.stringify(notes));
-            renderAll();
-        }
+    <!-- Dutch System Philosophy & Life Inside -->
+    <section id="philosophy" class="py-16 bg-slate-900 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <span class="text-xs font-bold text-blue-400 uppercase tracking-widest">Inside Dutch Prisons</span>
+                    <h2 class="text-3xl font-extrabold text-white mt-1">Rehabilitation & Humane Treatment</h2>
+                </div>
+                <p class="text-slate-400 text-sm max-w-xl mt-2 md:mt-0">
+                    The Netherlands structures its correctional facilities around human dignity, self-sufficiency, and active social recovery.
+                </p>
+            </div>
 
-        function filterTasks(filter) {
-            currentTaskFilter = filter;
-            ['all', 'pending', 'completed'].forEach(f => {
-                const btn = document.getElementById(`filter-${f}`);
-                if (f === filter) {
-                    btn.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-600 text-white";
-                } else {
-                    btn.className = "px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800";
-                }
-            });
-            renderTasks();
-            lucide.createIcons();
-        }
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Cell & Physical Spaces -->
+                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-blue-500/10 text-blue-400 rounded-xl flex items-center justify-center mb-6">
+                            <i data-lucide="home" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">1. Living Spaces & Cells</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                            Cells measure approximately <strong>5m long x 2m wide x 2.5m high</strong>.
+                        </p>
+                        <ul class="space-y-2 text-sm text-slate-300">
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0"></i>
+                                Private restroom, desk, bed, chair, and TV.
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0"></i>
+                                Inmates cook their own meals under supervision.
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0"></i>
+                                Allowed to wear their own personal clothing.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 
-        function toggleModal(modalId, show) {
-            document.getElementById(modalId).classList.toggle('hidden', !show);
-        }
+                <!-- Daily Life -->
+                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-emerald-500/10 text-emerald-400 rounded-xl flex items-center justify-center mb-6">
+                            <i data-lucide="sun" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">2. Daily Routine & Culture</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                            Daily life is designed to mimic normal outside routines as closely as possible to build healthy habits.
+                        </p>
+                        <ul class="space-y-2 text-sm text-slate-300">
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0"></i>
+                                Daily sports, library time, and outdoor breaks.
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0"></i>
+                                Weekly family visits and regular phone calls.
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0"></i>
+                                Facility jobs build workplace discipline.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 
-        // Pomodoro Timer
-        function updateTimerDisplay() {
-            const mins = String(timerState.minutes).padStart(2, '0');
-            const secs = String(timerState.seconds).padStart(2, '0');
-            document.getElementById('timer-display').innerText = `${mins}:${secs}`;
-        }
+                <!-- Therapy & Programs -->
+                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-purple-500/10 text-purple-400 rounded-xl flex items-center justify-center mb-6">
+                            <i data-lucide="brain-circuit" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">3. Programs & Mental Health</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                            Addressing root behavioral issues and mental health prevents future crime.
+                        </p>
+                        <ul class="space-y-2 text-sm text-slate-300">
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0"></i>
+                                Specialized psychiatric treatment programs (TBS).
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0"></i>
+                                Life-skills, counseling, and youth support.
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0"></i>
+                                Post-release staff guidance for smooth reentry.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        function toggleTimer() {
-            const btn = document.getElementById('timer-start-btn');
-            if (timerState.isRunning) {
-                clearInterval(timerState.interval);
-                timerState.isRunning = false;
-                btn.innerHTML = `<i data-lucide="play" class="w-5 h-5"></i> Start Focus`;
+    <!-- Side-by-Side System Comparison -->
+    <section id="comparison" class="py-16 bg-slate-950 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-xs font-bold text-blue-400 uppercase tracking-widest">Head to Head</span>
+                <h2 class="text-3xl font-extrabold text-white mt-1">Netherlands vs. United States Comparison</h2>
+                <p class="text-slate-400 text-sm max-w-2xl mx-auto mt-2">
+                    How legal frameworks, incarceration rates, and sentencing philosophies directly impact recidivism outcomes.
+                </p>
+            </div>
+
+            <!-- Comparison Table / Card Container -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Netherlands Column -->
+                <div class="bg-slate-900 border-2 border-blue-500/40 rounded-3xl p-6 sm:p-8 relative">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-400 text-xs font-bold mb-6">
+                        🇳🇱 Netherlands Model
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-6">Civil Law & Rehabilitation</h3>
+
+                    <div class="space-y-6 text-sm">
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+                            <span class="text-xs font-semibold text-slate-400 uppercase block mb-1">Legal & Court System</span>
+                            <p class="text-white font-medium">Civil Law system using written legal codes. Decisions are made by 1 to 3 professional judges (No juries).</p>
+                        </div>
+
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+                            <span class="text-xs font-semibold text-slate-400 uppercase block mb-1">Incarceration Rate</span>
+                            <div class="flex items-center justify-between mt-1">
+                                <span class="text-2xl font-black text-blue-400">70 per 100k</span>
+                                <span class="text-xs text-emerald-400 font-semibold">One of lowest globally</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+                            <span class="text-xs font-semibold text-slate-400 uppercase block mb-1">Core Philosophy & Sentences</span>
+                            <p class="text-slate-300">Prison is a <strong>last resort</strong>. Sentences are short, focusing on human dignity, treatment, and reintegration.</p>
+                        </div>
+
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+                            <span class="text-xs font-semibold text-slate-400 uppercase block mb-1">Recidivism (Return Rate)</span>
+                            <div class="flex items-center justify-between">
+                                <span class="text-2xl font-black text-emerald-400">25% - 30%</span>
+                                <span class="text-xs text-emerald-400 font-semibold">Low repeat crime</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- US Column -->
+                <div class="bg-slate-900 border-2 border-red-500/30 rounded-3xl p-6 sm:p-8 relative">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/20 text-red-400 text-xs font-bold mb-6">
+                        🇺🇸 United States Model
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-6">Common Law & Retribution</h3>
+
+                    <div class="space-y-6 text-sm">
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+                            <span class="text-xs font-semibold text-slate-400 uppercase block mb-1">Legal & Court System</span>
+                            <p class="text-white font-medium">Common Law system relying on court precedents. Trials use 12 citizen jurors to judge guilt.</p>
+                        </div>
+
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+                            <span class="text-xs font-semibold text-slate-400 uppercase block mb-1">Incarceration Rate</span>
+                            <div class="flex items-center justify-between mt-1">
+                                <span class="text-2xl font-black text-red-400">600 - 700 per 100k</span>
+                                <span class="text-xs text-red-400 font-semibold">Highest in the world</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+                            <span class="text-xs font-semibold text-slate-400 uppercase block mb-1">Core Philosophy & Sentences</span>
+                            <p class="text-slate-300">Focuses on <strong>retribution & deterrence</strong>. Longer mandatory sentences, stricter isolation, and punitive rules.</p>
+                        </div>
+
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+                            <span class="text-xs font-semibold text-slate-400 uppercase block mb-1">Recidivism (Return Rate)</span>
+                            <div class="flex items-center justify-between">
+                                <span class="text-2xl font-black text-red-400">40% - 50%</span>
+                                <span class="text-xs text-red-400 font-semibold">High repeat arrest rate</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- My Policy Proposal Section -->
+    <section id="proposal" class="py-16 bg-gradient-to-b from-slate-900 via-blue-950/20 to-slate-950 border-b border-slate-800">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-12 -bottom-12 opacity-10 pointer-events-none">
+                    <i data-lucide="shield-check" class="w-80 h-80"></i>
+                </div>
+
+                <div class="relative z-10">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-white text-xs font-bold uppercase tracking-wider mb-6">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> My Policy Proposal for U.S. Reform
+                    </span>
+
+                    <h2 class="text-3xl sm:text-4xl font-extrabold mb-4">
+                        Make U.S. Prisons More Livable & Rehabilitation-Focused
+                    </h2>
+
+                    <p class="text-blue-100 text-base sm:text-lg mb-8 max-w-2xl leading-relaxed">
+                        The U.S. should redesign its facilities and sentencing laws to prioritize <strong>resocialization and humane living conditions</strong> rather than long-term isolation.
+                    </p>
+
+                    <!-- Action Steps Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 text-slate-900">
+                        <div class="bg-white/95 backdrop-blur rounded-2xl p-5 shadow-sm">
+                            <div class="text-blue-600 font-bold text-sm mb-2 flex items-center gap-2">
+                                <i data-lucide="graduation-cap" class="w-4 h-4"></i> Education & Skills
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Invest in job training, formal schooling, and mental health therapy inside all prison facilities.
+                            </p>
+                        </div>
+
+                        <div class="bg-white/95 backdrop-blur rounded-2xl p-5 shadow-sm">
+                            <div class="text-blue-600 font-bold text-sm mb-2 flex items-center gap-2">
+                                <i data-lucide="navigation" class="w-4 h-4"></i> Alternatives
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Use community service and electronic monitoring for non-violent offenses instead of prison time.
+                            </p>
+                        </div>
+
+                        <div class="bg-white/95 backdrop-blur rounded-2xl p-5 shadow-sm">
+                            <div class="text-blue-600 font-bold text-sm mb-2 flex items-center gap-2">
+                                <i data-lucide="lock" class="w-4 h-4"></i> Limit Confinement
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Restrict solitary confinement and harsh sensory deprivation to protect inmate mental health.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Why this helps box -->
+                    <div class="bg-slate-950/40 border border-white/20 rounded-2xl p-6 text-slate-100">
+                        <h4 class="font-bold text-base mb-2 flex items-center gap-2 text-white">
+                            <i data-lucide="trending-down" class="w-5 h-5 text-emerald-400"></i> Why Would This Change Help?
+                        </h4>
+                        <p class="text-sm text-blue-100 leading-relaxed">
+                            It directly reduces <strong>recidivism rates</strong>. When prisoners leave with job skills, counseling, and social support, they transition smoothly into normal life rather than returning to crime. This creates <strong>safer communities</strong> and <strong>saves millions in taxpayer money</strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Q&A Accordion Explorer (Questions 1 to 10) -->
+    <section id="questions" class="py-16 bg-slate-950">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <span class="text-xs font-bold text-blue-400 uppercase tracking-widest">Full Q&A Guide</span>
+                <h2 class="text-3xl font-extrabold text-white mt-1">Research Questions Breakdown</h2>
+                <p class="text-slate-400 text-sm mt-1">Click any question below to reveal the formatted answer.</p>
+            </div>
+
+            <div class="space-y-4" id="accordion-container">
+                <!-- Question Cards populated dynamically / HTML accordion -->
+                
+                <!-- Q1 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden transition-all">
+                    <button onclick="toggleAccordion(1)" class="w-full text-left px-6 py-4 font-semibold text-white flex items-center justify-between hover:bg-slate-800/50">
+                        <span>1. What is the incarceration rate in the Netherlands?</span>
+                        <i id="acc-icon-1" data-lucide="chevron-down" class="w-5 h-5 text-blue-400 transition-transform"></i>
+                    </button>
+                    <div id="acc-body-1" class="hidden px-6 pb-5 text-slate-300 text-sm leading-relaxed border-t border-slate-800/60 pt-4">
+                        The Netherlands has an incarceration rate of <strong>70 to 100 per 100,000 citizens</strong>. The total prison population is <strong>12,570 inmates</strong> out of an official capacity of 14,789 (78.0% occupancy rate). Demographics include:
+                        <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-400">
+                            <li>29.2% Pre-trial detainees</li>
+                            <li>25.2% Foreign prisoners</li>
+                            <li>4.7% Female prisoners</li>
+                            <li>1.3% Juveniles under 18 years old</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden transition-all">
+                    <button onclick="toggleAccordion(2)" class="w-full text-left px-6 py-4 font-semibold text-white flex items-center justify-between hover:bg-slate-800/50">
+                        <span>2. What is the recidivism rate in the Netherlands?</span>
+                        <i id="acc-icon-2" data-lucide="chevron-down" class="w-5 h-5 text-blue-400 transition-transform"></i>
+                    </button>
+                    <div id="acc-body-2" class="hidden px-6 pb-5 text-slate-300 text-sm leading-relaxed border-t border-slate-800/60 pt-4">
+                        Around <strong>35% of former prisoners reoffend within 1 year</strong>, and <strong>47% to 49% reoffend within 2 years</strong>. However, across all court-ordered sanctions, the 2-year reconviction rate drops significantly to <strong>27% - 30%</strong>.
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden transition-all">
+                    <button onclick="toggleAccordion(3)" class="w-full text-left px-6 py-4 font-semibold text-white flex items-center justify-between hover:bg-slate-800/50">
+                        <span>3. What is the main philosophy of the Dutch justice system?</span>
+                        <i id="acc-icon-3" data-lucide="chevron-down" class="w-5 h-5 text-blue-400 transition-transform"></i>
+                    </button>
+                    <div id="acc-body-3" class="hidden px-6 pb-5 text-slate-300 text-sm leading-relaxed border-t border-slate-800/60 pt-4">
+                        The core philosophy is <strong>rehabilitation and reintegration</strong>. The system works toward building a safer society by combining fair punishment with psychiatric treatment, health care, education, and social recovery starting from day one of imprisonment.
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden transition-all">
+                    <button onclick="toggleAccordion(4)" class="w-full text-left px-6 py-4 font-semibold text-white flex items-center justify-between hover:bg-slate-800/50">
+                        <span>4. What do Dutch prisons look like?</span>
+                        <i id="acc-icon-4" data-lucide="chevron-down" class="w-5 h-5 text-blue-400 transition-transform"></i>
+                    </button>
+                    <div id="acc-body-4" class="hidden px-6 pb-5 text-slate-300 text-sm leading-relaxed border-t border-slate-800/60 pt-4">
+                        Standard cells measure 5 meters long, 2 meters wide, and 2.5 meters high. Each cell includes a bed, desk, chair, wardrobe, small television, and private restroom. Inmates are even permitted to cook their own meals under staff supervision.
+                    </div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden transition-all">
+                    <button onclick="toggleAccordion(5)" class="w-full text-left px-6 py-4 font-semibold text-white flex items-center justify-between hover:bg-slate-800/50">
+                        <span>5. What is daily life like for inmates?</span>
+                        <i id="acc-icon-5" data-lucide="chevron-down" class="w-5 h-5 text-blue-400 transition-transform"></i>
+                    </button>
+                    <div id="acc-body-5" class="hidden px-6 pb-5 text-slate-300 text-sm leading-relaxed border-t border-slate-800/60 pt-4">
+                        Daily life is kept as close to normal life as possible. Inmates participate in sports, library time, daily outdoor breaks, weekly visits from family, and phone calls. Many work facility jobs to build positive routines. Because facilities aren't overcrowded, living conditions remain clean and calm.
+                    </div>
+                </div>
+
+                <!-- Q6 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden transition-all">
+                    <button onclick="toggleAccordion(6)" class="w-full text-left px-6 py-4 font-semibold text-white flex items-center justify-between hover:bg-slate-800/50">
+                        <span>6. What rehabilitation programs are offered?</span>
+                        <i id="acc-icon-6" data-lucide="chevron-down" class="w-5 h-5 text-blue-400 transition-transform"></i>
+                    </button>
+                    <div id="acc-body-6" class="hidden px-6 pb-5 text-slate-300 text-sm leading-relaxed border-t border-slate-800/60 pt-4">
+                        Programs focus on behavior correction. Inmates with mental health issues enter special forensic psychiatric programs (TBS). Counseling, life skills, and youth education are widely available, alongside dedicated staff who guide prisoners during their reentry into society.
+                    </div>
+                </div>
+
+                <!-- Q7 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden transition-all">
+                    <button onclick="toggleAccordion(7)" class="w-full text-left px-6 py-4 font-semibold text-white flex items-center justify-between hover:bg-slate-800/50">
+                        <span>7. How is the Dutch system different legally from the U.S.?</span>
+                        <i id="acc-icon-7" data-lucide="chevron-down" class="w-5 h-5 text-blue-400 transition-transform"></i>
+                    </button>
+                    <div id="acc-body-7" class="hidden px-6 pb-5 text-slate-300 text-sm leading-relaxed border-t border-slate-800/60 pt-4">
+                        The Netherlands operates under a <strong>Civil Law system</strong> based on written statutes, with trials decided by professional judges (often 3 judges) and <strong>no juries</strong>. The U.S. uses a <strong>Common Law system</strong> where judicial precedents carry immense weight, and 12-citizen juries decide guilt or innocence.
+                    </div>
+                </div>
+
+                <!-- Q8 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden transition-all">
+                    <button onclick="toggleAccordion(8)" class="w-full text-left px-6 py-4 font-semibold text-white flex items-center justify-between hover:bg-slate-800/50">
+                        <span>8. How do overall outcomes compare (NL vs. US)?</span>
+                        <i id="acc-icon-8" data-lucide="chevron-down" class="w-5 h-5 text-blue-400 transition-transform"></i>
+                    </button>
+                    <div id="acc-body-8" class="hidden px-6 pb-5 text-slate-300 text-sm leading-relaxed border-t border-slate-800/60 pt-4">
+                        The Netherlands has significantly lower recidivism (25%-30%) compared to the U.S. (40%-50% returning within 3-5 years). Dutch incarceration is around 70 per 100k versus the U.S. at 600-700 per 100k. Declining Dutch crime rates even allowed them to rent empty prison cells to neighboring countries!
+                    </div>
+                </div>
+
+                <!-- Q9 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden transition-all">
+                    <button onclick="toggleAccordion(9)" class="w-full text-left px-6 py-4 font-semibold text-white flex items-center justify-between hover:bg-slate-800/50">
+                        <span>9. What is ONE change the U.S. should make based on this?</span>
+                        <i id="acc-icon-9" data-lucide="chevron-down" class="w-5 h-5 text-blue-400 transition-transform"></i>
+                    </button>
+                    <div id="acc-body-9" class="hidden px-6 pb-5 text-slate-300 text-sm leading-relaxed border-t border-slate-800/60 pt-4">
+                        The U.S. should redesign its prisons to be more livable and focused on <strong>resocialization</strong>. This includes expanding job/mental health programs, increasing non-prison alternatives (community service), and severely restricting solitary confinement.
+                    </div>
+                </div>
+
+                <!-- Q10 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden transition-all">
+                    <button onclick="toggleAccordion(10)" class="w-full text-left px-6 py-4 font-semibold text-white flex items-center justify-between hover:bg-slate-800/50">
+                        <span>10. Why would this change help the U.S.?</span>
+                        <i id="acc-icon-10" data-lucide="chevron-down" class="w-5 h-5 text-blue-400 transition-transform"></i>
+                    </button>
+                    <div id="acc-body-10" class="hidden px-6 pb-5 text-slate-300 text-sm leading-relaxed border-t border-slate-800/60 pt-4">
+                        It lowers repeat crime rates, prepares individuals for gainful employment, ensures safer neighborhoods, and reduces the massive financial tax burden of operating overpopulated prisons.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Works Cited Section -->
+    <section id="sources" class="py-12 bg-slate-900 border-t border-slate-800">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                <i data-lucide="file-text" class="w-5 h-5 text-blue-400"></i> Works Cited & References
+            </h3>
+            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-400">
+                <li class="bg-slate-950 p-3 rounded-lg border border-slate-800">WODC Recidivism Research</li>
+                <li class="bg-slate-950 p-3 rounded-lg border border-slate-800">Custodial Institutions Agency (DJI) Official Overview</li>
+                <li class="bg-slate-950 p-3 rounded-lg border border-slate-800">Judiciary & Law of the Netherlands (Wikipedia)</li>
+                <li class="bg-slate-950 p-3 rounded-lg border border-slate-800">Federal Judiciary of the United States</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-6 bg-slate-950 text-center text-xs text-slate-500 border-t border-slate-900">
+        <p>Created for School Presentation • Criminal Justice Comparative Analysis</p>
+    </footer>
+
+    <!-- Interactive Presentation Overlay Modal -->
+    <div id="presentationModal" class="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-xl hidden flex-col justify-between p-6 sm:p-12">
+        <!-- Top Bar -->
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+            <div class="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
+                <i data-lucide="presentation" class="w-4 h-4"></i> Presentation Mode
+            </div>
+            <span id="slideCounter" class="text-xs text-slate-400 font-mono">Slide 1 of 5</span>
+            <button onclick="closePresentationModal()" class="text-slate-400 hover:text-white p-2 rounded-lg bg-slate-900">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <!-- Slide Content Area -->
+        <div class="max-w-4xl mx-auto w-full my-auto text-center py-8">
+            <div id="slideContent" class="space-y-6">
+                <!-- Dynamically updated by JS -->
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="flex justify-between items-center max-w-4xl mx-auto w-full pt-4 border-t border-slate-800">
+            <button onclick="prevSlide()" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-sm flex items-center gap-2">
+                <i data-lucide="chevron-left" class="w-4 h-4"></i> Previous
+            </button>
+            <div class="flex gap-1.5" id="slideDots"></div>
+            <button onclick="nextSlide()" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm flex items-center gap-2">
+                Next <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Accordion Toggle Logic
+        function toggleAccordion(id) {
+            const body = document.getElementById(`acc-body-${id}`);
+            const icon = document.getElementById(`acc-icon-${id}`);
+            
+            if (body.classList.contains('hidden')) {
+                body.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
             } else {
-                timerState.isRunning = true;
-                btn.innerHTML = `<i data-lucide="pause" class="w-5 h-5"></i> Pause`;
-                timerState.interval = setInterval(() => {
-                    if (timerState.seconds === 0) {
-                        if (timerState.minutes === 0) {
-                            clearInterval(timerState.interval);
-                            timerState.isRunning = false;
-                            if (timerState.mode === 'work') {
-                                timerState.sessionsCompleted++;
-                                timerState.mode = 'break';
-                                timerState.minutes = 5;
-                                document.getElementById('timer-mode-label').innerText = 'Short Break';
-                            } else {
-                                timerState.mode = 'work';
-                                timerState.minutes = 25;
-                                document.getElementById('timer-mode-label').innerText = 'Work Session';
-                            }
-                            document.getElementById('completed-sessions-count').innerText = timerState.sessionsCompleted;
-                            btn.innerHTML = `<i data-lucide="play" class="w-5 h-5"></i> Start Focus`;
-                            renderAll();
-                        } else {
-                            timerState.minutes--;
-                            timerState.seconds = 59;
-                        }
-                    } else {
-                        timerState.seconds--;
-                    }
-                    updateTimerDisplay();
-                }, 1000);
+                body.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
             }
+        }
+
+        // Presentation Slides Data
+        const slides = [
+            {
+                title: "Introduction: The Big Picture",
+                subtitle: "Netherlands vs. United States Incarceration",
+                bullets: [
+                    "<strong>Incarceration Rate:</strong> Netherlands = 70-100 per 100k | US = 600-700 per 100k.",
+                    "<strong>Total Inmates (NL):</strong> 12,570 prisoners in 14,789 capacity (78% occupancy).",
+                    "<strong>Dutch Demographics:</strong> 29.2% pre-trial, 25.2% foreign, 4.7% female, 1.3% juveniles.",
+                    "<strong>Main Takeaway:</strong> The Netherlands treats prison as a <em>last resort</em>."
+                ]
+            },
+            {
+                title: "Core Philosophy: Rehabilitation Day 1",
+                subtitle: "How Dutch Prisons Operate",
+                bullets: [
+                    "<strong>Main Goal:</strong> Reintegration into a safe society through treatment, education, and skills.",
+                    "<strong>Human Living Conditions:</strong> 5m x 2m cells with bed, desk, tv, and private restrooms.",
+                    "<strong>Normalcy Focus:</strong> Inmates wear personal clothes, cook their own meals, work, and do sports.",
+                    "<strong>Mental Health:</strong> Specialized forensic psychiatric programs (TBS) treat root behavioral issues."
+                ]
+            },
+            {
+                title: "Legal System & Outcomes Comparison",
+                subtitle: "Civil Law vs. Common Law",
+                bullets: [
+                    "<strong>Court System:</strong> Netherlands uses Civil Law (1-3 professional judges, no juries) vs. US Common Law (12 citizen jurors).",
+                    "<strong>Recidivism (Return Rate):</strong> Netherlands = 25%-30% reconvicted vs. US = 40%-50% rearrested.",
+                    "<strong>Crime Rates:</strong> Falling crime in NL allowed them to rent empty prison cells to neighbor countries!"
+                ]
+            },
+            {
+                title: "My Proposal for U.S. Prison Reform",
+                subtitle: "What Should the U.S. Change?",
+                bullets: [
+                    "<strong>Humanize Facilities:</strong> Shift from punitive isolation to active resocialization.",
+                    "<strong>Expand In-Prison Programs:</strong> Provide vocational job training, education, and mental health therapy.",
+                    "<strong>Alternative Sanctions:</strong> Increase community service & monitoring for non-violent offenses.",
+                    "<strong>Limit Confinement:</strong> Restrict harsh solitary confinement."
+                ]
+            },
+            {
+                title: "Why This Reform Works",
+                subtitle: "Benefits to Society",
+                bullets: [
+                    "<strong>Lower Repeat Crime:</strong> Equipping people with job skills prevents rearrests.",
+                    "<strong>Safer Neighborhoods:</strong> Reentering society smoothly creates law-abiding citizens.",
+                    "<strong>Taxpayer Savings:</strong> Lowering prison populations saves millions in government operational costs."
+                ]
+            }
+        ];
+
+        let currentSlide = 0;
+
+        function openPresentationModal() {
+            document.getElementById('presentationModal').classList.remove('hidden');
+            document.getElementById('presentationModal').classList.add('flex');
+            renderSlide();
+        }
+
+        function closePresentationModal() {
+            document.getElementById('presentationModal').classList.add('hidden');
+            document.getElementById('presentationModal').classList.remove('flex');
+        }
+
+        function renderSlide() {
+            const slide = slides[currentSlide];
+            const content = document.getElementById('slideContent');
+            const counter = document.getElementById('slideCounter');
+            const dots = document.getElementById('slideDots');
+
+            counter.innerText = `Slide ${currentSlide + 1} of ${slides.length}`;
+
+            content.innerHTML = `
+                <span class="text-xs font-bold uppercase tracking-widest text-blue-400 block mb-2">${slide.subtitle}</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-8">${slide.title}</h2>
+                <div class="text-left bg-slate-900 border border-slate-800 p-6 sm:p-8 rounded-2xl space-y-4">
+                    ${slide.bullets.map(bullet => `
+                        <div class="flex items-start gap-3 text-slate-200 text-base sm:text-lg">
+                            <div class="p-1 bg-blue-500/20 text-blue-400 rounded mt-1 shrink-0">
+                                <i data-lucide="check" class="w-4 h-4"></i>
+                            </div>
+                            <div>${bullet}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            dots.innerHTML = slides.map((_, idx) => `
+                <div class="w-2.5 h-2.5 rounded-full ${idx === currentSlide ? 'bg-blue-500' : 'bg-slate-800'}"></div>
+            `).join('');
+
             lucide.createIcons();
         }
 
-        function resetTimer() {
-            clearInterval(timerState.interval);
-            timerState.isRunning = false;
-            timerState.minutes = timerState.mode === 'work' ? 25 : 5;
-            timerState.seconds = 0;
-            document.getElementById('timer-start-btn').innerHTML = `<i data-lucide="play" class="w-5 h-5"></i> Start Focus`;
-            updateTimerDisplay();
-            lucide.createIcons();
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                renderSlide();
+            }
         }
 
-        // Initialize App on Load
-        window.onload = function() {
-            renderAll();
-        };
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                renderSlide();
+            }
+        }
     </script>
 </body>
 </html>
